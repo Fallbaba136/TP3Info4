@@ -39,11 +39,15 @@ void afficheNoeud(noeud* racine, int prof)
     if (racine == NULL) return;
     else
     {
-        cout << racine->nom;
         if (prof != 0)
         {
-            cout << "\t";
+            for (int i = 0; i < prof; i++)
+            {
+                cout << "\t";
+            }
+            
         }
+        cout << racine->nom << endl;
         for (int i = 0; i < racine->nbr_fils; i++)
         {
             afficheNoeud(racine->tab[i], prof + 1);
