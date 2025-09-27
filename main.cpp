@@ -56,37 +56,67 @@ void afficheNoeud(noeud* racine, int prof)
     }
 }
 
-//recher
+//recherche dans un arbre
+//recherche d'un ancetre
+noeud* rechercheParent(noeud* racine, string nom)
+{
+    if (racine == NULL) return NULL;
+    if (racine->nom == nom) return racine;
+    else
+    {
+        for (int i = 0; i < racine->nbr_fils; i++)
+        {
+            if (racine->tab[i]->nom == nom)
+            {
+                return racine;
+            }
+            else
+            {
+                noeud* result = rechercheParent(racine->tab[i], nom);
+                if (result != NULL)
+                {
+                    return result;
+                }
+                
+            }
+        }
+        return NULL;
+    }
+}
+noeud* rechercheGrandParent(noeud* racine, string nom)
+{
+    if (racine == NULL) return NULL;
+    if (racine->nom == nom) return NULL;
+   
+        for (int i = 0; i < racine->nbr_fils; i++)
+        {
+            if (racine->tab[i]->nom == nom)
+            {
+                cout << "pas de grand parent " << endl;
+                return NULL;
+            }
+                noeud* result = rechercheGrandParent(racine->tab[i], nom);
+                if (result != NULL)
+                {
+                    return result;
+                }
+        }
 
+    return NULL;
+}
+// recherche des caracteristique
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void afficherCousins(noeud* racine, string nom)
+{
+    if (racine == NULL)
+    {
+        cout << "arbre vide" << endl;
+    }
+    else
+    {
+        
+    }
+}
 
 
 
@@ -96,11 +126,21 @@ void afficheNoeud(noeud* racine, int prof)
 
 int main(int argc, const char * argv[])
 {
+    string nom;
+    cout << " veuiller entrer le nom du parent : ";
+    cin >> nom;
     noeud* newNoeud = NULL;
     createArbre(&newNoeud);
-    afficheNoeud(newNoeud, 4);
-    
-    
+    afficheNoeud(newNoeud, 0);
+    noeud* result1 = rechercheGrandParent(newNoeud, nom);
+    if (result1 != NULL)
+    {
+        cout <<"le parent recherche est dans l'adresse " << result1 << endl;
+    }
+    else
+    {
+        cout << "le parent recherche n'est pas dans l'arbre " << endl;
+    }
     
     return 0;
 }
