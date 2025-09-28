@@ -117,15 +117,30 @@ void afficherCousins(noeud* racine, string nom)
             for (int j = 0; j < (result->tab[i])->nbr_fils; j++)
             {
                 if (
-                    ((result->tab[i])->tab[i])->nom != nom)
+                    ((result->tab[i])->tab[j])->nom != nom)
                 {
-                    cout << ((result->tab[i])->tab[i])->nom << endl;
+                    cout << ((result->tab[i])->tab[j])->nom << endl;
                 }
             }
         }
     }
 }
 
+void afficheFreres(noeud* racine, string nom)
+{
+    if (racine != NULL)
+    {
+        noeud* result = rechercheParent(racine, nom);
+        if (result == NULL) return;
+        for (int i = 0; i < result->nbr_fils; i++)
+        {
+            if (result->tab[i]->nom != nom)
+            {
+                cout << (result->tab[i])->nom << endl;
+            }
+        }
+    }
+}
 
 
 
