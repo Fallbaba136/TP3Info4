@@ -108,13 +108,21 @@ noeud* rechercheGrandParent(noeud* racine, string nom)
 
 void afficherCousins(noeud* racine, string nom)
 {
-    if (racine == NULL)
+    if (racine != NULL)
     {
-        cout << "arbre vide" << endl;
-    }
-    else
-    {
-        
+        noeud* result = rechercheGrandParent(racine, nom);
+        if (result == NULL) return;
+        for (int i = 0; i < result->nbr_fils; i++)
+        {
+            for (int j = 0; j < (result->tab[i])->nbr_fils; j++)
+            {
+                if (
+                    ((result->tab[i])->tab[i])->nom != nom)
+                {
+                    cout << ((result->tab[i])->tab[i])->nom << endl;
+                }
+            }
+        }
     }
 }
 
