@@ -142,28 +142,83 @@ void afficheFreres(noeud* racine, string nom)
     }
 }
 
-
-
-
-
-
-int main(int argc, const char * argv[])
+void rajouterEnfant(noeud* racine, string nomPersonne)
 {
-    string nom;
-    cout << " veuiller entrer le nom du parent : ";
-    cin >> nom;
-    noeud* newNoeud = NULL;
-    createArbre(&newNoeud);
-    afficheNoeud(newNoeud, 0);
-    noeud* result1 = rechercheGrandParent(newNoeud, nom);
-    if (result1 != NULL)
+    if (racine == NULL) return;
+    if (racine->nom == nomPersonne)
     {
-        cout <<"le parent recherche est dans l'adresse " << result1 << endl;
+        createArbre(&racine);
+    }
+    noeud* cible = NULL;
+    for (int i = 0; i < racine->nbr_fils; i++)
+    {
+        if (racine->tab[i]->nom == nomPersonne)
+        {
+            cible = racine->tab[i];
+            break;
+        }
+       
+    }
+    if (cible != NULL)
+    {
+        noeud** newTab = new noeud*[cible->nbr_fils + 1];
+        for (int j = 0; j < cible->nbr_fils + 1; j++)
+        {
+            newTab[j] = cible->tab[j];
+            noeud* newEnfant = new noeud;
+            createArbre(&newEnfant);
+            newTab[cible->nbr_fils] = newEnfant;
+        }
+        delete [] cible->tab;
+        cible->tab = newTab;
+        cible->nbr_fils++;
     }
     else
     {
-        cout << "le parent recherche n'est pas dans l'arbre " << endl;
+        for (int i = 0; i < racine->nbr_fils; i++)
+        {
+            rajouterEnfant(racine->tab[i], nomPersonne);
+        }
     }
+   
+   
+}
+
+
+
+
+int main() {
+    // Création d'un arbre de profondeur 3
+    noeud* arbre = NULL;
+    createArbre(&arbre);
+    
+    // Affichage de l'arbre
+    cout << "Arbre créé :" << endl;
+    afficheNoeud(arbre, 0);
+    
+    // Tests des cousins
+    cout << "\n--- TESTS COUSINS ---" << endl;
+    cout << "Cousins d'un nœud sans cousin :" << endl;
+    afficherCousins(arbre, "nom_sans_cousin");
+    
+    cout << "Cousins d'un nœud avec plusieurs cousins :" << endl;
+    afficherCousins(arbre, "nom_avec_cousins");
+    
+    cout << "Cousins d'un nœud inexistant :" << endl;
+    afficherCousins(arbre, "nom_inexistant");
+    
+    // Tests des frères
+    cout << "\n--- TESTS FRÈRES ---" << endl;
+    cout << "Frères d'un nœud sans frère :" << endl;
+    afficheFreres(arbre, "nom_sans_frere");
+    
+    cout << "Frères d'un nœud avec plusieurs frères :" << endl;
+    afficheFreres(arbre, "nom_avec_freres");
+    
+    // Test ajout d'enfant
+    cout << "\n--- AJOUT D'ENFANT ---" << endl;
+    rajouterEnfant(arbre, "nom_parent");
+    afficheNoeud(arbre, 0);
     
     return 0;
 }
